@@ -29,7 +29,15 @@ const expressSession = session({
 })
 
 app.use(expressSession)
+
 io.use(sharedSession(expressSession, { autosave: true }))
+io.use((socket, next) => {
+  const session = socket.handshake.session
+  if (!session.user) {
+    next(new Error('auth falied'))
+  }
+  next()
+})
 
 app.set('view engine', 'ejs')
 

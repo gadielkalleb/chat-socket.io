@@ -1,6 +1,14 @@
 $(function(){
   const socket = io()
-  var selectedRoom = ''
+  let selectedRoom = ''
+
+  $('.send-audio')
+    .mouseup(function(){
+
+    })
+    .mousedown(function(){
+     
+    })
 
   $('.msg').keyup(function(key) {
     if (selectedRoom !== '' && key.keyCode === 13) {
@@ -12,22 +20,11 @@ $(function(){
     }
   })
 
-  // const roomList = document.querySelectorAll('.room-list')
-  // roomList.forEach(room => {
-  //   addEventListener('click', function() {
-  //     const roomId = room.getAttribute('data-id')
-  //     socket.emit('join', roomId)
-  //     selectedRoom = roomId
-  //   })
-  // })
   $('.room-list').on('click', '.room-item', function() {
     const roomId = $(this).attr('data-id')
     socket.emit('join', roomId)
     selectedRoom = roomId
   })
-  function changeRoom() {
-    
-  }
 
   const addRoom = (room) =>  $('.room-list').append(`<li data-id="${room._id}" class="room-item">${room.name}</li>`)
   const addMsg = msg => {

@@ -3,13 +3,20 @@
   <div class="new-message-form w-form">
     <form class="form">
       <textarea id="field" name="field" maxlength="5000" placeholder="Digite sua mensagem e pressione &lt;Enter&gt;" autofocus="true" class="msg w-input"></textarea>
-      <a href="#" class="send-audio w-button">Enviar<br>Áudio</a>
+      <button type="button" class="send-audio w-button">Enviar<br>Áudio</button>
     </form>
-    <div class="w-form-done">
-      <div>Thank you! Your submission has been received!</div>
-    </div>
-    <div class="w-form-fail">
-      <div>Oops! Something went wrong while submitting the form.</div>
-    </div>
   </div>
 </div>
+<script>
+  let audioPermission = false
+  let audioStream
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+      audioPermission = true
+      audioStream = stream
+    }).catch(e => {
+      console.log(e)
+      audioStream = null
+      audioPermission = false
+    })
+</script>
