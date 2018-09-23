@@ -1,6 +1,7 @@
 const Rooms = require('../models/room')
+const Message = require('../models/message')
 
-module.exports = io => {
+module.exports = async io => {
   io.on('connection', socket => {
     Rooms.find({}, (err, rooms) => {
       socket.emit('roomList', rooms)
@@ -15,6 +16,23 @@ module.exports = io => {
     })
     socket.on('join', roomId => {
       socket.join(roomId)
+      Message
+        .find({ room: roomId })
+        .then((msgs) => socket.emit('msgsList', msgs))
+        .catch(e => console.log('erro ao trazer a lista de msgs ====>', e))
+    })
+    socket.on('sendMsg', msg => {
+      const message = new Message({
+        author: socket.handshake.session.user.name,
+        when: new Date(),
+        msgType: 'text',
+        message: msg.msg,
+        room: msg.room,
+      })
+      message
+        .save()
+        .then(() => io.to(msg.room).emit('newMsg', message))
+        .catch(e => console.log(e))
     })
   })
 }
