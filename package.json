@@ -1,0 +1,17 @@
+{
+  "name": "chat-socketio",
+  "version": "1.0.0",
+  "description": "chat usando socket.io",
+  "main": "index.js",
+  "author": "Gadiel Kaleb",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.2.17",
+    "nodemon": "^1.18.4",
+    "socket.io": "^2.1.1"
+  }
+}
