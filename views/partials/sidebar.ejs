@@ -1,6 +1,27 @@
+<style>
+
+
+.active, .room-item:hover {
+  background-color: #666;
+  color: white;
+}
+</style>
+
+<script>
+var btns = document.querySelectorAll(".room-item");
+console.log(btns)
+for (let i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function() {
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+}
+</script>
+
 <div class="rooms">
   <h1 class="title-rooms">Salas Disponíveis</h1>
-  <ul class="room-list w-list-unstyled">
+  <ul id="myDIV" class="room-list w-list-unstyled">
     <li class="room-item">Sala 1</li>
     <li class="room-item">Sala 2</li>
     <li class="room-item">Sala 3 <span class="notifications">(2)</span></li>

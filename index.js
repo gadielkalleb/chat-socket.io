@@ -1,10 +1,12 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const sharedSession = require('express-socket.io-session')
 
+const port = process.env.PORT || 3000
+
 const socket = require('./socketio/io')
+const mongoose = require('./db/mongodb')
 
 const app = express()
 const http = require('http').Server(app)
@@ -35,10 +37,8 @@ app.set('view engine', 'ejs')
 app.use('/', login)
 app.use('/room', room)
 
-socket(io)
-
-mongoose.Promise = global.Promise
-mongoose.connect('mongodb://localhost/chat-socketio', { useNewUrlParser: true })
-  .then(() => {
-    http.listen(3000, () => console.log('chat rodando...'))
-  }).catch(e => console.log(e))
+http.listen(port, () => {
+  console.log('chat rodando...')
+  mongoose
+  socket(io)
+})
