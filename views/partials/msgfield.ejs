@@ -7,16 +7,3 @@
     </form>
   </div>
 </div>
-<script>
-  let audioPermission = false
-  let audioStream
-  navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(stream => {
-      audioPermission = true
-      audioStream = stream
-    }).catch(e => {
-      console.log(e)
-      audioStream = null
-      audioPermission = false
-    })
-</script>

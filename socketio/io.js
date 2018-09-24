@@ -34,5 +34,18 @@ module.exports = async io => {
         .then(() => io.to(msg.room).emit('newMsg', message))
         .catch(e => console.log(e))
     })
+    socket.on('sendAudio', msg => {
+      const message = new Message({
+        author: socket.handshake.session.user.name,
+        when: new Date(),
+        msgType: 'audio',
+        message: msg.data,
+        room: msg.room,
+      })
+      message
+        .save()
+        .then(() => io.to(msg.room).emit('newAudio', message))
+        .catch(e => console.log(e))
+    })
   })
 }
