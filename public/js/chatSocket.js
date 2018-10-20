@@ -55,6 +55,9 @@ $(function(){
     const roomId = $(this).attr('data-id')
     socket.emit('join', roomId)
     selectedRoom = roomId
+    $(`#${roomId} .notifications`).show()
+    $(`#${roomId} .notifications`).text('0')
+
   })
 
   const renderMsg = (type, msg) => {
@@ -66,16 +69,18 @@ $(function(){
     return ''
   }
 
-  const addRoom = (room) =>  $('.room-list').append(`<li data-id="${room._id}" class="room-item">${room.name}</li>`)
+  const addRoom = ({_id, name}) =>  {
+    $('.room-list').append(`<li id="${_id}" data-id="${_id}" class="room-item">${name} <span class="notifications">(<span>0</span>)</span></li>`)
+    $(`#${_id} .notifications`).hide()
+  }
+
   const addMsg = msg => {
       const html = `<div class="message"><span class="author">${msg.author}</span><br>
       <span class="msg-body">${renderMsg(msg.msgType, msg.message)}</span></div>`
       $('.messages').append(html)
   }
 
-  socket.on('newRoom', room => {
-    addRoom(room)
-  })
+  socket.on('newRoom', room => addRoom({room}))
   socket.on('roomList', rooms => {
     $('.room-list').html('')
     rooms.map(addRoom)
@@ -84,6 +89,11 @@ $(function(){
   socket.on('newMsg', msg => {
     if (selectedRoom === msg.room) {
       addMsg(msg)
+    } else {
+      const id = msg.room
+      let count = parseInt($(`#${id} .notifications span`).text())
+      count++
+      $(`#${id} .notifications span`).text(count)
     }
   })
   socket.on('newAudio', msg => {
